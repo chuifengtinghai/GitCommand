@@ -1,0 +1,26 @@
+﻿																Git的常用命令及操作
+一、配置git 用户的名字和email地址：
+	git config --global user.name "lvfeng"
+	git config --global user.email "lvfeng_1988@126.com"	注意；只有配置了用户名和email地址才能够向仓库提交更改，注意命令中的--global参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。
+
+二、创建本地版本库
+	1、git init                                     在本地初始化一个空的git仓库
+	2、git add files                                预先添加将要向仓库提交的文件
+	3、git commit -m "文件更改说明（版本说明）"     文件在仓库登记并写上说明
+三、本地版本库添加到远程版本库：
+	1、创建SSH Key
+		输入ssh-keygen -t rsa -C "lvfeng@sjzthdz.com"指令后，一路回车，使用默认值即可,成功后会生成.ssh目录，里面有id_rsa和id_rsa.pub两个文件。
+		登录git服务器，将id_rsa.pub文件内的内容添加到个人账号的SSH Key下。
+	2、查看远程库版本库信息
+		git remote 查看是否有远程版本库的信息，如需详细信息可添加参数-v
+		若本地版本库已关联到远程版本库，会显示远程版本库名称，若无回复，说明本地版本库未关联到远程版本库。
+	3、若无远程版本库，将本地版本库关联到远程版本库
+		在git服务器上创建一个版本库，以便本地版本库与之关联。
+		git remote add origin git@192.168.8.150:lvfeng/learngit.git 关联后，远程版本库的名字就是origin，可以改成其他的。
+	4、将本地版本库推送到远程版本库
+		git push -u origin master 将本地版本库内的master分支推送到远程版本库，第一次推送加上参数-u，把本地的master分支和远程的master分支关联
+		git push origin master    关联后可简化为该指令
+从远程库克隆到本地：
+    git clone git@192.168.8.150:lvfeng/learngit.git
+    当更换电脑或工作目录后，可将远程库克隆到本地 ，克隆成功后会在当前目录生成learngit目录。
+	
