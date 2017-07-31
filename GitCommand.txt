@@ -7,6 +7,7 @@
 	1、git init                                     在本地初始化一个空的git仓库
 	2、git add files                                预先添加将要向仓库提交的文件
 	3、git commit -m "文件更改说明（版本说明）"     文件在仓库登记并写上说明
+	
 三、本地版本库添加到远程版本库：
 	1、创建SSH Key
 		输入ssh-keygen -t rsa -C "lvfeng@sjzthdz.com"指令后，一路回车，使用默认值即可,成功后会生成.ssh目录，里面有id_rsa和id_rsa.pub两个文件。
@@ -25,4 +26,7 @@
 从远程库克隆到本地：
     git clone git@192.168.8.150:lvfeng/learngit.git
     当更换电脑或工作目录后，可将远程库克隆到本地 ，克隆成功后会在当前目录生成learngit目录。
+	
+四、查看修改的内容
+	git diff GitCommand   如果git status告诉你有文件被修改过，用git diff可以查看修改内容。
 	
