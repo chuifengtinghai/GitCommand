@@ -23,9 +23,9 @@
 	4、将本地版本库推送到远程版本库
 		git push -u origin master 将本地版本库内的master分支推送到远程版本库，第一次推送加上参数-u，把本地的master分支和远程的master分支关联
 		git push origin master    关联后可简化为该指令
-从远程库克隆到本地：
-    git clone git@192.168.8.150:lvfeng/learngit.git
-    当更换电脑或工作目录后，可将远程库克隆到本地 ，克隆成功后会在当前目录生成learngit目录。
+    5、从远程库克隆到本地：
+		git clone git@192.168.8.150:lvfeng/learngit.git
+		当更换电脑或工作目录后，可将远程库克隆到本地 ，克隆成功后会在当前目录生成learngit目录。
 	
 四、查看修改的内容
 	git diff GitCommand.txt            如果git status告诉你有文件被修改过，用git diff可以查看修改内容。
@@ -52,6 +52,82 @@
 	2、删错了，想要恢复
 		git checkout -- file   git checkout其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”
 
+八、分支管理
+	1、创建并切换分支
+		git checkout -b dev  -b参数表示创建并切换
+		git branch dev       创建分支
+		git checkout dev     切换分支
+	2、查看分支
+		git branch           查看当前分支
+	3、删除分支
+		git branch -d dev              删除本地分支
+		git push origin -- delete dev  删除远程版本库分支
+		
+九、分支合并
+	1、快速合并
+		git merge dev        将dev分支合并到当前分支
+	2、普通合并
+		git merge --no-ff -m "合并说明" dev
+		用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而fast forward合并就看不出来曾经做过合并
+		
+十、Bug分支
+	1、当前工作现场“储藏”起来，以便切换分支，否则可能不能切换
+		git stash
+	2、切换到master分支，并创建bug分支
+		git checkout master
+		git checkout -b issue-101
+	3、在bug分支下工作并提交修改
+	4、切换到master分支，并合并
+		git checkout master
+		git merge --no-ff -m "merged bug fix 101"
+	5、删除bug分支
+	6、查看是否有工作现场被保存
+		git stash list
+	7、恢复现场
+		git stash pop    恢复的同时把stash内容也删了，相当于下面两步
+		git stash apply
+		git stash drop
+		
+十一、Feature分支
+	开发一个新feature，最好新建一个分支，如果要丢弃一个没有被合并过的分支，可以通过git branch -D <Branch name>强行删除
+	
+十二、多人协作
+	1、推送分支
+		git push origin branchname     推送时，要指定本地分支，这样，Git就会把该分支推送到远程库对应的远程分支上
+		master分支是主分支，因此要时刻与远程同步；
+		dev分支是开发分支，团队所有成员都需要在上面工作，所以也需要与远程同步；
+		bug分支只用于在本地修复bug，就没必要推到远程了，除非老板要看看你每周到底修复了几个bug；
+		feature分支是否推到远程，取决于你是否和你的小伙伴合作在上面开发
+	2、从远程库克隆
+		git clone git@192.168.8.150:lvfeng/learngit.git
+		从远程库clone时，默认情况下只能看到本地的master分支，可以用git branch命令看看
+	3、创建远程origin的dev分支到本地
+		git checkout -b dev origin/dev
+		现在，就可以在dev上继续修改，然后，时不时地把dev分支push到远程
+	4、解决推送冲突
+		先用git pull把最新的提交从origin/dev抓下来，然后，在本地合并，解决冲突，再推送：
+	5、建立本地分支和远程分支的关联
+		如果git pull提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，
+		用命令git branch --set-upstream branch-name origin/branch-name
 
-
+十三、标签
+	1、命令git tag <name>就可以打一个新标签 git tag v1.0
+	2、命令git tag查看所有标签
+	3、对某个版本打标签
+		 git tag v0.9 commit-id  默认标签是打在最新提交的commit上的。有时候，如果忘了打标签，比如，现在已经是周五了，但应该在周一打的标签没有打，怎么办？
+		方法是找到历史提交的commit id，然后打上就可以了
+	4、查看标签信息
+		git show <tagname>
+	5、创建带有说明的标签，用-a指定标签名，-m指定说明文字
+		git tag -a v0.1 -m "version 0.1 released" commit-id
+	6、删除本地标签
+		git tag -d v0.1
+	7、推送本地标签到远程
+		git push origin <tagname>  可以推送一个本地标签
+		git push origin --tags     可以推送全部未推送过的本地标签
+	8、删除远程标签
+		首先删除本地标签，然后从远程删除
+		git push origin :refs/tags/<tagname>
+	
+	
 	
